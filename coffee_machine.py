@@ -88,4 +88,6 @@ while machine_on:
             if change == 0:
                 for item in drink_ingredients:
                     resources[item] -= drink_ingredients[item]
-            print(f"Here is your {choice}. Enjoy!")
+                print(f"Here is your {choice}. Enjoy!")
+            else:
+                print("Not enough money, you have been refunded.")
