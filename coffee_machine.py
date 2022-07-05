@@ -46,13 +46,16 @@ def check_coins(coins):
     value += (coins['dimes'] * 0.1)
     value += (coins['nickles'] * 0.05)
     value += (coins['pennies'] * 0.01)
-    if MENU[choice]['money'] == value:
+    if value > MENU[choice]['cost']:
+        over = value - MENU[choice]['cost']
+        over = round(over, 2)
+        value = value - over
+        print(value)
+        print(MENU[choice]['cost'])
+        print(f"Here is ${over} dollars in change.")
         resources['money'] += value
         return 0
-    elif value > MENU[choice]['money']:
-        over = value - MENU[choice]['money']
-        over = round(over, 2)
-        print(f"Here is ${over} dollars in change.")
+    elif MENU[choice]['cost'] == value:
         resources['money'] += value
         return 0
     else:
@@ -74,14 +77,15 @@ while machine_on:
         print(resources)
     else:
         drink = MENU[choice]
-        if check_resources(drink['ingredients']):
-            coins['quarters'] = input('Insert the amount of quarters: ')
-            coins['dimes'] = input('Insert the amount of dimes: ')
-            coins['nickles'] = input('Insert the amount of nickles: ')
-            coins['pennies'] = input('Insert the amount of pennies: ')
+        drink_ingredients = drink['ingredients']
+        if check_resources(drink_ingredients):
+            coins['quarters'] = int(input('Insert the amount of quarters: '))
+            coins['dimes'] = int(input('Insert the amount of dimes: '))
+            coins['nickles'] = int(input('Insert the amount of nickles: '))
+            coins['pennies'] = int(input('Insert the amount of pennies: '))
             print(coins)
             change = check_coins(coins)
             if change == 0:
-                for item in drink:
-                    resources[item] -= drink[item]
+                for item in drink_ingredients:
+                    resources[item] -= drink_ingredients[item]
             print(f"Here is your {choice}. Enjoy!")
